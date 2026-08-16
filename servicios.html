@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servicios — Visión F.Q</title>
+<meta name="description" content="Servicios de instalación y mantenimiento de cámaras de seguridad de Visión F.Q en Bogotá.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ---- extras solo para esta página: showcases con foto ---- */
+  .svc-hero{padding:52px 0 20px;}
+  .svc-hero .eyebrow{margin-bottom:16px;}
+  .svc-hero h1{
+    font-family:'Space Grotesk',sans-serif; font-weight:700;
+    font-size:clamp(2rem,5vw,3.4rem); letter-spacing:-0.02em; margin-bottom:16px;
+  }
+  .svc-hero p{color:var(--muted); max-width:560px; font-size:1.02rem;}
+  .back-link{
+    display:inline-flex; align-items:center; gap:8px; font-size:0.84rem;
+    color:var(--muted); margin-bottom:26px;
+  }
+  .back-link:hover{color:var(--phosphor);}
+
+  .showcase{
+    display:grid; grid-template-columns:1fr; gap:34px;
+    padding:54px 0; border-top:1px solid var(--line);
+    align-items:center;
+  }
+  @media(min-width:860px){
+    .showcase{grid-template-columns:1fr 1fr; gap:56px;}
+    .showcase.rev .photo-col{order:2;}
+    .showcase.rev .text-col{order:1;}
+  }
+  .photo-col{position:relative;}
+  .photo-frame{
+    position:relative; aspect-ratio:4/3; background:var(--panel);
+  }
+  .photo-inner{
+    position:absolute; inset:0; border-radius:6px; overflow:hidden;
+  }
+  .photo-frame img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:grayscale(0.35) contrast(1.12) brightness(0.72) saturate(1.05);
+  }
+  .photo-frame .tint{
+    position:absolute; inset:0;
+    background:linear-gradient(155deg, rgba(94,235,160,0.30), rgba(10,14,18,0.55) 60%, rgba(10,14,18,0.75));
+    mix-blend-mode:normal;
+  }
+  .photo-frame .tag{
+    position:absolute; top:16px; left:16px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.06em;
+    color:var(--phosphor); background:rgba(10,14,18,0.55);
+    padding:5px 10px; border:1px solid var(--line-strong); border-radius:3px;
+  }
+  .photo-frame .rec-tag{
+    position:absolute; top:16px; right:16px;
+    display:flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:#eaf1f0;
+    background:rgba(10,14,18,0.55); padding:5px 10px; border-radius:3px;
+  }
+  .photo-frame .rec-tag .d{width:6px; height:6px; border-radius:50%; background:var(--alert); box-shadow:0 0 6px var(--alert);}
+  .photo-credit{
+    margin-top:8px; font-size:0.68rem; color:var(--muted-2); text-align:right;
+  }
+  .photo-credit a{color:var(--muted-2); text-decoration:underline; text-underline-offset:2px;}
+  .photo-credit a:hover{color:var(--muted);}
+
+  .text-col .svc-tag{display:block; margin-bottom:14px;}
+  .text-col h2{
+    font-family:'Space Grotesk',sans-serif; font-weight:700;
+    font-size:clamp(1.4rem,2.6vw,2rem); margin-bottom:14px;
+  }
+  .text-col p{color:var(--muted); font-size:0.98rem; margin-bottom:18px; max-width:460px;}
+  .text-col ul{list-style:none; display:flex; flex-direction:column; gap:10px;}
+  .text-col li{
+    display:flex; align-items:flex-start; gap:10px; color:var(--muted); font-size:0.92rem;
+  }
+  .text-col li svg{width:16px; height:16px; color:var(--phosphor); flex-shrink:0; margin-top:2px;}
+
+  .more-head{padding:70px 0 40px;}
+  .more-head .eyebrow{margin-bottom:14px;}
+  .more-head h2{font-family:'Space Grotesk',sans-serif; font-size:clamp(1.5rem,3vw,2.1rem); font-weight:700;}
+
+  /* ---- galería / carrusel automático ---- */
+  .gallery{margin:10px 0 20px;}
+  .gallery-frame{
+    position:relative; aspect-ratio:16/9; background:var(--panel);
+    cursor:zoom-in;
+  }
+  .gallery-track{position:absolute; inset:0; border-radius:6px; overflow:hidden;}
+  .gallery-slide{
+    position:absolute; inset:0; opacity:0; transition:opacity 0.9s ease;
+    pointer-events:none;
+  }
+  .gallery-slide.is-active{opacity:1; pointer-events:auto;}
+  .gallery-slide img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:grayscale(0.35) contrast(1.12) brightness(0.72) saturate(1.05);
+  }
+  .gallery-slide .tint{
+    position:absolute; inset:0;
+    background:linear-gradient(155deg, rgba(94,235,160,0.30), rgba(10,14,18,0.45) 55%, rgba(10,14,18,0.75));
+  }
+  .gallery-slide .tag{
+    position:absolute; top:16px; left:16px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.06em;
+    color:var(--phosphor); background:rgba(10,14,18,0.55);
+    padding:5px 10px; border:1px solid var(--line-strong); border-radius:3px;
+  }
+  .gallery-slide .rec-tag{
+    position:absolute; top:16px; right:16px;
+    display:flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:#eaf1f0;
+    background:rgba(10,14,18,0.55); padding:5px 10px; border-radius:3px;
+  }
+  .gallery-slide .rec-tag .d{width:6px; height:6px; border-radius:50%; background:var(--alert); box-shadow:0 0 6px var(--alert);}
+  .gallery-slide .view-hint{
+    position:absolute; bottom:16px; right:16px; z-index:2;
+    display:flex; align-items:center; gap:6px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:#eaf1f0;
+    background:rgba(10,14,18,0.55); padding:6px 11px; border-radius:3px;
+    opacity:0; transition:opacity 0.2s;
+  }
+  .gallery-frame:hover .gallery-slide.is-active .view-hint{opacity:1;}
+  .gallery-slide .view-hint svg{width:12px; height:12px;}
+
+  .gallery-arrow{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:3;
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(10,14,18,0.55); border:1px solid var(--line-strong);
+    color:#eaf1f0; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:1.3rem; line-height:1;
+    opacity:0; transition:opacity 0.2s, background 0.2s, border-color 0.2s;
+  }
+  .gallery-frame:hover .gallery-arrow{opacity:1;}
+  .gallery-arrow:hover{background:rgba(94,235,160,0.18); border-color:var(--phosphor);}
+  .gallery-arrow.prev{left:14px;}
+  .gallery-arrow.next{right:14px;}
+
+  .gallery-dots{
+    position:absolute; bottom:14px; left:50%; transform:translateX(-50%); z-index:3;
+    display:flex; gap:8px;
+  }
+  .gallery-dot{
+    width:7px; height:7px; border-radius:50%; border:1px solid rgba(234,241,240,0.6);
+    background:rgba(234,241,240,0.15); cursor:pointer; padding:0;
+    transition:background 0.2s, width 0.25s, border-color 0.2s;
+  }
+  .gallery-dot.is-active{background:var(--phosphor); border-color:var(--phosphor); width:20px; border-radius:4px;}
+
+  .gallery-caption{padding:22px 4px 0;}
+  .gallery-caption .svc-tag{display:block; margin-bottom:10px;}
+  .gallery-caption h2{
+    font-family:'Space Grotesk',sans-serif; font-weight:700;
+    font-size:clamp(1.3rem,2.4vw,1.7rem); margin-bottom:8px;
+  }
+  .gallery-caption p{color:var(--muted); font-size:0.95rem; max-width:560px;}
+  .gallery-credit{margin-top:10px; font-size:0.68rem; color:var(--muted-2);}
+  .gallery-credit a{color:var(--muted-2); text-decoration:underline; text-underline-offset:2px;}
+  .gallery-credit a:hover{color:var(--muted);}
+
+  /* ---- lightbox ---- */
+  .lightbox{
+    position:fixed; inset:0; z-index:200;
+    background:rgba(6,9,12,0.94);
+    display:none; align-items:center; justify-content:center;
+    padding:60px 20px;
+  }
+  .lightbox.open{display:flex;}
+  .lightbox-stage{
+    position:relative; max-width:1000px; width:100%;
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+  }
+  .lightbox-frame{
+    position:relative; width:100%; border:1px solid var(--line-strong); border-radius:6px;
+    overflow:hidden; background:var(--panel); max-height:72vh;
+  }
+  .lightbox-frame img{
+    display:block; width:100%; height:100%; max-height:72vh; object-fit:contain;
+    background:#04070a;
+  }
+  .lightbox-caption{
+    display:flex; justify-content:space-between; width:100%;
+    font-size:0.8rem; color:var(--muted); gap:12px; flex-wrap:wrap;
+  }
+  .lightbox-caption .credit a{color:var(--muted); text-decoration:underline; text-underline-offset:2px;}
+  .lightbox-close, .lightbox-prev, .lightbox-next{
+    position:absolute; z-index:5;
+    display:flex; align-items:center; justify-content:center;
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(10,14,18,0.7); border:1px solid var(--line-strong);
+    color:#eaf1f0; cursor:pointer; transition:background 0.2s, border-color 0.2s;
+  }
+  .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover{
+    background:rgba(94,235,160,0.15); border-color:var(--phosphor);
+  }
+  .lightbox-close{top:-52px; right:0;}
+  .lightbox-prev{left:-14px; top:50%; transform:translateY(-50%);}
+  .lightbox-next{right:-14px; top:50%; transform:translateY(-50%);}
+  .lightbox-close svg, .lightbox-prev svg, .lightbox-next svg{width:18px; height:18px;}
+  @media(max-width:700px){
+    .lightbox-prev{left:4px;} .lightbox-next{right:4px;}
+    .lightbox-close{top:-46px; right:4px;}
+    .gallery-arrow{width:36px; height:36px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="logo" href="index.html"><span class="dot"></span>VISIÓN&nbsp;F.Q</a>
+      <div class="navlinks">
+        <a href="index.html#servicios">Inicio</a>
+        <a href="index.html#proceso">Cómo trabajamos</a>
+        <a href="index.html#cobertura">Cobertura</a>
+        <a href="index.html#equipo">Equipo</a>
+        <a href="index.html#contacto">Contacto</a>
+      </div>
+      <a class="btn btn-primary navcta" href="https://wa.me/573009581061?text=Hola%2C%20quiero%20una%20cotizaci%C3%B3n%20de%20c%C3%A1maras%20de%20seguridad" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="svc-hero">
+    <div class="wrap">
+      <a class="back-link" href="index.html">← Volver al inicio</a>
+      <div class="eyebrow">Servicios</div>
+      <h1>Cada cámara, cada cable,<br>cada detalle.</h1>
+      <p>Así es un sistema instalado por Visión F.Q: equipos certificados, configuración completa y soporte después de la instalación.</p>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="gallery reveal">
+      <div class="gallery-frame frame" id="galleryFrame" onclick="openLightbox(galleryIndex)">
+        <div class="fb1"></div><div class="fb2"></div>
+        <div class="gallery-track" id="galleryTrack">
+
+          <div class="gallery-slide is-active" data-idx="0">
+            <img src="https://images.unsplash.com/photo-1643123182527-3bd30840e7ed?fm=jpg&q=70&w=1400&auto=format&fit=crop" alt="Cámara de seguridad instalada en techo">
+            <div class="tint"></div>
+            <div class="tag">CAM 01</div>
+            <div class="rec-tag"><span class="d"></span>REC</div>
+            <div class="view-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Ver en grande</div>
+          </div>
+
+          <div class="gallery-slide" data-idx="1">
+            <img src="https://images.unsplash.com/photo-1523350518665-e177eea6988b?fm=jpg&q=70&w=1400&auto=format&fit=crop" alt="Cámara domo blanca y negra en pared">
+            <div class="tint"></div>
+            <div class="tag">CAM 02</div>
+            <div class="rec-tag"><span class="d"></span>REC</div>
+            <div class="view-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Ver en grande</div>
+          </div>
+
+          <div class="gallery-slide" data-idx="2">
+            <img src="https://images.unsplash.com/photo-1481597262637-0545b18186ea?fm=jpg&q=70&w=1400&auto=format&fit=crop" alt="Cámara de seguridad blanca en techo">
+            <div class="tint"></div>
+            <div class="tag">CAM 03</div>
+            <div class="rec-tag"><span class="d"></span>REC</div>
+            <div class="view-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>Ver en grande</div>
+          </div>
+
+        </div>
+
+        <button class="gallery-arrow prev" onclick="event.stopPropagation(); galleryStep(-1)" aria-label="Foto anterior">‹</button>
+        <button class="gallery-arrow next" onclick="event.stopPropagation(); galleryStep(1)" aria-label="Foto siguiente">›</button>
+
+        <div class="gallery-dots">
+          <button class="gallery-dot is-active" onclick="event.stopPropagation(); galleryGoTo(0)" aria-label="Foto 1"></button>
+          <button class="gallery-dot" onclick="event.stopPropagation(); galleryGoTo(1)" aria-label="Foto 2"></button>
+          <button class="gallery-dot" onclick="event.stopPropagation(); galleryGoTo(2)" aria-label="Foto 3"></button>
+        </div>
+      </div>
+
+      <div class="gallery-caption" id="galleryCaption">
+        <span class="svc-tag mono">01 — Instalación</span>
+        <h2>Instalación de cámaras</h2>
+        <p>Montamos cámaras de interior y exterior con visión nocturna, resistentes al agua, en el punto exacto donde su propiedad las necesita.</p>
+        <div class="gallery-credit" id="galleryCredit">Foto: Franck V. / Unsplash</div>
+      </div>
+    </div>
+
+  <section class="pad" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    <div class="wrap">
+      <div class="more-head reveal" style="padding:0 0 40px;">
+        <div class="eyebrow">Más servicios</div>
+        <h2>El resto del sistema, resuelto</h2>
+      </div>
+      <div class="svc-grid reveal">
+        <div class="svc-card">
+          <span class="svc-tag mono">CAM 04</span>
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <h3>Mantenimiento mes a mes</h3>
+          <p>Revisión periódica para que su sistema nunca deje de grabar.</p>
+        </div>
+        <div class="svc-card">
+          <span class="svc-tag mono">CAM 05</span>
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
+          <h3>DVR y almacenamiento</h3>
+          <p>Equipo de grabación con disco duro incluido, listo para usar.</p>
+        </div>
+        <div class="svc-card">
+          <span class="svc-tag mono">CAM 06</span>
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg>
+          <h3>Instalación eléctrica</h3>
+          <p>Cableado y conexiones seguras para todo el sistema.</p>
+        </div>
+        <div class="svc-card">
+          <span class="svc-tag mono">CAM 07</span>
+          <svg class="svc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/><path d="M9 12l2 2 4-4"/></svg>
+          <h3>Soporte post-venta</h3>
+          <p>Acompañamiento después de la instalación, cuando lo necesite.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <h2 class="reveal">¿Cuál de estos servicios necesita?</h2>
+      <p class="reveal">Cuéntenos por WhatsApp y le armamos una cotización a la medida.</p>
+      <a class="btn btn-primary btn-lg reveal" href="https://wa.me/573009581061?text=Hola%2C%20quiero%20una%20cotizaci%C3%B3n%20de%20c%C3%A1maras%20de%20seguridad" target="_blank" rel="noopener">Cotizar por WhatsApp</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-row">
+      <a class="logo" href="index.html"><span class="dot"></span>VISIÓN&nbsp;F.Q</a>
+      <div class="foot-links">
+        <a href="mailto:visionfq9@gmail.com">visionfq9@gmail.com</a>
+        <a href="https://wa.me/573009581061" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="tel:+573008775251">Llamar</a>
+      </div>
+    </div>
+    <div class="foot-note">Calle 49 D Bis # 88C – 19 Sur, Bogotá D.C. · Instalación y mantenimiento de cámaras de seguridad.</div>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/573009581061?text=Hola%2C%20quiero%20una%20cotizaci%C3%B3n%20de%20c%C3%A1maras%20de%20seguridad" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.4A10 10 0 1 0 12 2zm5.6 14.3c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-3.1-.8-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5.2.5.7 1.8.8 1.9.1.2.1.3 0 .5-.1.2-.2.3-.3.5-.2.2-.3.3-.1.6.2.3.9 1.5 1.9 2.4 1.3 1.2 2.4 1.5 2.7 1.7.3.2.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.8.8.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
+</a>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada">
+  <div class="lightbox-stage">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <button class="lightbox-prev" onclick="stepLightbox(-1)" aria-label="Foto anterior">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="lightbox-frame">
+      <img id="lightbox-img" src="" alt="">
+    </div>
+    <button class="lightbox-next" onclick="stepLightbox(1)" aria-label="Foto siguiente">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+    <div class="lightbox-caption">
+      <span id="lightbox-title"></span>
+      <span class="credit" id="lightbox-credit"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  var els = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); }
+      });
+    }, { threshold:0.12 });
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('show'); });
+  }
+</script>
+
+<script>
+  // ---- datos de las fotos (carrusel + lightbox comparten esto) ----
+  var photos = [
+    {
+      full: "https://images.unsplash.com/photo-1643123182527-3bd30840e7ed?fm=jpg&q=80&w=1800&auto=format&fit=crop",
+      tag: "01 — Instalación",
+      title: "Instalación de cámaras",
+      desc: "Montamos cámaras de interior y exterior con visión nocturna, resistentes al agua, en el punto exacto donde su propiedad las necesita.",
+      credit: "Foto: Franck V. / Unsplash"
+    },
+    {
+      full: "https://images.unsplash.com/photo-1523350518665-e177eea6988b?fm=jpg&q=80&w=1800&auto=format&fit=crop",
+      tag: "02 — Interior y exterior",
+      title: "Cámaras para cada espacio",
+      desc: "Cámaras domo y tipo bala para interiores, fachadas y zonas comunes, con visión nocturna y protección contra el clima.",
+      credit: "Foto: Bernard Hermant / Unsplash"
+    },
+    {
+      full: "https://images.unsplash.com/photo-1481597262637-0545b18186ea?fm=jpg&q=80&w=1800&auto=format&fit=crop",
+      tag: "03 — App móvil",
+      title: "Vea su casa o negocio en tiempo real",
+      desc: "Configuramos su celular para que vea las cámaras en vivo desde cualquier lugar, con notificaciones cuando algo se mueve.",
+      credit: "Foto: Alex Knight / Unsplash"
+    }
+  ];
+
+  // ---- carrusel automático de la galería ----
+  var galleryIndex = 0;
+  var galleryTimer = null;
+  var gallerySlides = document.querySelectorAll('.gallery-slide');
+  var galleryDots = document.querySelectorAll('.gallery-dot');
+  var galleryCaption = document.getElementById('galleryCaption');
+
+  function renderGalleryCaption(){
+    var p = photos[galleryIndex];
+    galleryCaption.querySelector('.svc-tag').textContent = p.tag;
+    galleryCaption.querySelector('h2').textContent = p.title;
+    galleryCaption.querySelector('p').textContent = p.desc;
+    document.getElementById('galleryCredit').textContent = p.credit;
+  }
+  function galleryGoTo(i){
+    gallerySlides[galleryIndex].classList.remove('is-active');
+    galleryDots[galleryIndex].classList.remove('is-active');
+    galleryIndex = (i + photos.length) % photos.length;
+    gallerySlides[galleryIndex].classList.add('is-active');
+    galleryDots[galleryIndex].classList.add('is-active');
+    renderGalleryCaption();
+    restartGalleryTimer();
+  }
+  function galleryStep(dir){ galleryGoTo(galleryIndex + dir); }
+  function startGalleryTimer(){
+    galleryTimer = setInterval(function(){ galleryStep(1); }, 4500);
+  }
+  function restartGalleryTimer(){
+    if(galleryTimer) clearInterval(galleryTimer);
+    startGalleryTimer();
+  }
+  startGalleryTimer();
+  // pausa al pasar el mouse, sigue al salir
+  var galleryFrame = document.getElementById('galleryFrame');
+  galleryFrame.addEventListener('mouseenter', function(){ if(galleryTimer) clearInterval(galleryTimer); });
+  galleryFrame.addEventListener('mouseleave', startGalleryTimer);
+
+  // ---- lightbox (ver en grande) ----
+  var currentIdx = 0;
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lightbox-img');
+  var lbTitle = document.getElementById('lightbox-title');
+  var lbCredit = document.getElementById('lightbox-credit');
+
+  function renderLightbox(){
+    var p = photos[currentIdx];
+    lbImg.src = p.full;
+    lbImg.alt = p.title;
+    lbTitle.textContent = p.tag + ' — ' + p.title;
+    lbCredit.textContent = p.credit;
+  }
+  function openLightbox(i){
+    currentIdx = i;
+    renderLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    if(galleryTimer) clearInterval(galleryTimer);
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+    startGalleryTimer();
+  }
+  function stepLightbox(dir){
+    currentIdx = (currentIdx + dir + photos.length) % photos.length;
+    renderLightbox();
+  }
+  lightbox.addEventListener('click', function(e){
+    if(e.target === lightbox){ closeLightbox(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(!lightbox.classList.contains('open')) return;
+    if(e.key === 'Escape') closeLightbox();
+    if(e.key === 'ArrowLeft') stepLightbox(-1);
+    if(e.key === 'ArrowRight') stepLightbox(1);
+  });
+</script>
+
+</body>
+</html>
