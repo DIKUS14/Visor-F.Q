@@ -195,10 +195,16 @@
 
   /* ---------- SERVICIOS ---------- */
   .svc-grid{
-    display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr));
+    display:grid; grid-template-columns:repeat(3, 1fr);
     gap:1px; background:var(--line);
     border:1px solid var(--line);
   }
+  @media(max-width:860px){ .svc-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media(max-width:520px){ .svc-grid{grid-template-columns:1fr;} }
+  /* variante para grids de 4 tarjetas (evita huecos en "más servicios") */
+  .svc-grid.svc-grid-4{grid-template-columns:repeat(4, 1fr);}
+  @media(max-width:860px){ .svc-grid.svc-grid-4{grid-template-columns:repeat(2, 1fr);} }
+  @media(max-width:520px){ .svc-grid.svc-grid-4{grid-template-columns:1fr;} }
   .svc-card{
     background:var(--panel); padding:32px 28px;
     display:flex; flex-direction:column; gap:16px;
